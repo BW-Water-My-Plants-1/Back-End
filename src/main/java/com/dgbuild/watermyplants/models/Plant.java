@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "plants")
+@JsonIgnoreProperties(value = "hasValueForFrequency")
 public class Plant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,6 +17,9 @@ public class Plant {
 
     private String species;
 
+    @Transient
+    public boolean hasValueForFrequency = false;
+
     private int frequency;
 
     @ManyToOne
@@ -23,5 +27,54 @@ public class Plant {
     @JsonIgnoreProperties(value = "plants")
     private User user;
 
+    public Plant() {
+    }
 
+    public Plant(String nickname, String species, int frequency, User user) {
+        this.nickname = nickname;
+        this.species = species;
+        this.frequency = frequency;
+        this.user = user;
+    }
+
+    public long getPlantid() {
+        return plantid;
+    }
+
+    public void setPlantid(long plantid) {
+        this.plantid = plantid;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(int frequency) {
+        hasValueForFrequency = true;
+        this.frequency = frequency;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
