@@ -12,6 +12,8 @@ public interface UserService {
 
     User save(User newUser);
 
+    User update(User updateUser, long id);
+
     List<User> findAll();
 
     User findById(long id);

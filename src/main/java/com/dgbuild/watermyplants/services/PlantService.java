@@ -11,6 +11,8 @@ public interface PlantService {
 
     Plant save(Plant plant);
 
+    Plant update(Plant plant, long id);
+
     List<Plant> findAll();
 
     Plant findById(long id);

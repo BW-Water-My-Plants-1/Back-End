@@ -45,12 +45,21 @@ public class UserController {
     }
 
     // PUT http://localhost:2019/users/user/{id}
-    @PostMapping(value = "/user/{userId}",
+    @PutMapping(value = "/user/{userId}",
                 consumes = "application/json",
                 produces = "application/json")
-    public ResponseEntity<?> updateUser(@PathVariable long userId, @RequestBody User updateUser){
+    public ResponseEntity<?> updateFullUser(@Valid @PathVariable long userId, @RequestBody User updateUser){
         updateUser.setUserid(userId);
         updateUser = userService.save(updateUser);
+        return new ResponseEntity<>(updateUser, HttpStatus.CREATED);
+    }
+
+    // PATCH http://localhost:2019/users/user/{id}
+    @PatchMapping(value = "/user/{userId}",
+                consumes = "application/json",
+                produces = "application/json")
+    public ResponseEntity<?> updateUser(@RequestBody User updateUser, @PathVariable long userId){
+        updateUser = userService.update(updateUser, userId);
         return new ResponseEntity<>(updateUser, HttpStatus.CREATED);
     }
 

@@ -38,5 +38,7 @@ public class PlantController {
 
     // PUT http://localhost:2019/plants/plant/{id}
 
+    // PATCH http://localhost:2019/plants/plant/{id}
+
     // DELETE http://localhost:2019/plants/plant/{id}
 }
