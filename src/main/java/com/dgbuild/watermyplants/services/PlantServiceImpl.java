@@ -1,12 +1,12 @@
 package com.dgbuild.watermyplants.services;
 
+import com.dgbuild.watermyplants.exceptions.ResourceNotFoundException;
 import com.dgbuild.watermyplants.models.Plant;
 import com.dgbuild.watermyplants.repositories.PlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class PlantServiceImpl implements PlantService {
     @Override
     public void delete(long id) {
         plantRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Plant "+ id + " Not Found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Plant "+ id + " Not Found"));
         plantRepository.deleteById(id);
     }
 
@@ -37,7 +37,7 @@ public class PlantServiceImpl implements PlantService {
 
         if (plant.getPlantid() != 0){
             plantRepository.findById(plant.getPlantid())
-                    .orElseThrow(()->new EntityNotFoundException("Plant " + plant.getPlantid() + " Not Found"));
+                    .orElseThrow(()->new ResourceNotFoundException("Plant " + plant.getPlantid() + " Not Found"));
             newPlant.setPlantid(plant.getPlantid());
         }
 
@@ -58,7 +58,7 @@ public class PlantServiceImpl implements PlantService {
         Plant newPlant = new Plant();
 
         plantRepository.findById(id)
-                .orElseThrow(()->new EntityNotFoundException("Plant " + id + " Not Found"));
+                .orElseThrow(()->new ResourceNotFoundException("Plant " + id + " Not Found"));
         newPlant.setPlantid(plant.getPlantid());
 
         Plant currentPlant = plantRepository.findById(id).get();
@@ -100,7 +100,7 @@ public class PlantServiceImpl implements PlantService {
     @Override
     public Plant findById(long id) {
         plantRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Plant " + id + " Not Found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Plant " + id + " Not Found"));
         return plantRepository.findById(id).get();
     }
 }

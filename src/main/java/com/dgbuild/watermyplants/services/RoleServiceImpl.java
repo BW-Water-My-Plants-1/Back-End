@@ -1,14 +1,12 @@
 package com.dgbuild.watermyplants.services;
 
+import com.dgbuild.watermyplants.exceptions.ResourceFoundException;
+import com.dgbuild.watermyplants.exceptions.ResourceNotFoundException;
 import com.dgbuild.watermyplants.models.Role;
-import com.dgbuild.watermyplants.models.User;
-import com.dgbuild.watermyplants.models.UserRoles;
 import com.dgbuild.watermyplants.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(long id) {
-        roleRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Role " + id + " Not Found"));
+        roleRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Role " + id + " Not Found"));
         roleRepository.deleteById(id);
     }
 
@@ -43,7 +41,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role save(Role newRole) {
         if (newRole.getUsers().size() > 0){
-            throw new EntityExistsException("User Roles are not updated through Role.");
+            throw new ResourceFoundException("User Roles are not updated through Role.");
         }
 
         return  roleRepository.save(newRole);

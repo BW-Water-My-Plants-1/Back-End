@@ -1,5 +1,6 @@
 package com.dgbuild.watermyplants.services;
 
+import com.dgbuild.watermyplants.exceptions.ResourceNotFoundException;
 import com.dgbuild.watermyplants.models.Plant;
 import com.dgbuild.watermyplants.models.Role;
 import com.dgbuild.watermyplants.models.User;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(long id) {
-        userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User " + id + " Not Found"));
+        userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User " + id + " Not Found"));
         userRepository.deleteById(id);
     }
 
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService{
 
         if (user.getUserid() != 0){
             userRepository.findById(user.getUserid())
-                    .orElseThrow(() -> new EntityNotFoundException("User " + user.getUserid() + " Not Found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("User " + user.getUserid() + " Not Found"));
             newUser.setUserid(user.getUserid());
         }
 
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService{
         User newUser = new User();
 
         userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User " + id + " Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User " + id + " Not Found"));
         newUser.setUserid(id);
 
         User currentUser = userRepository.findById(id).get();
@@ -150,7 +151,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User findById(long id) {
         User findUser = userRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("User " + id + " Not Found"));
+                .orElseThrow(()-> new ResourceNotFoundException("User " + id + " Not Found"));
         return findUser;
     }
 }
