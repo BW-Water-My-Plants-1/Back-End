@@ -29,11 +29,11 @@ axios.post('http://watermyplants-dg0511.herokuapp.com/login', `grant_type=passwo
     "email": "someEmail@email.local"
 }
 ```
-| Type  | Endpoint  | What it does                   | required                                  |
-| :--:  | :-------: | :----------------------------: | :---------------------------------------: |
-| POST  | /register | register user and return token | **username**, **email**, and **password** |
-| POST  | /login    | logs in user and returns token | **username** and **password**             |
-| GET   | /logout   | removes user token from store  |                                           |
+| Type  | Endpoint       | What it does                   | required                                  |
+| :--:  | :-------:      | :----------------------------: | :---------------------------------------: |
+| POST  | /createnewuser | register user and return token | **username**, **email**, and **password** |
+| POST  | /login         | logs in user and returns token | **username** and **password**             |
+| GET   | /logout        | removes user token from store  |                                           |
 
 ## USER  
 In order to change any user information the request must come from an admin or  

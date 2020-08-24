@@ -10,6 +10,15 @@ public class UserMinimum {
     @Email
     private String email;
 
+    public UserMinimum() {
+    }
+
+    public UserMinimum(String username, String password, @Email String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
     }

@@ -39,7 +39,7 @@ public class SeedData implements CommandLineRunner {
         r1 = roleService.save(r1);
         r2 = roleService.save(r2);
 
-        User u1 = new User("admin", "$2y$12$zD6ZMaDASctpoEoEZVLNP.AVuMRTpC9gDfMz6s425KyKqNQHcM6OO",
+        User u1 = new User("admin", "password",
                 "admin@watermyplants.local", "(317)867-5309");
 
         u1 = userService.save(u1);
@@ -55,7 +55,7 @@ public class SeedData implements CommandLineRunner {
 
         u1.getPlants().add(p1);
 
-        User u2 = new User("user", "$2y$12$zD6ZMaDASctpoEoEZVLNP.AVuMRTpC9gDfMz6s425KyKqNQHcM6OO",
+        User u2 = new User("user", "password",
                         "user@watermyplants.local", "(574)123-4567");
 
         u2 = userService.save(u2);
