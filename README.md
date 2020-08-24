@@ -4,7 +4,7 @@
 
 ### Table of Contents  
 [Register and Login](#register-and-login)  
-[User](#user)
+[User](#user)  
 [Plant](#plant)  
 [Role](#role)
 
