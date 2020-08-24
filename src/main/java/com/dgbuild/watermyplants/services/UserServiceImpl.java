@@ -75,11 +75,11 @@ public class UserServiceImpl implements UserService{
 
             newUser.getRoles().add(new UserRoles(newUser, addRole));
         }
-
+        newUser = userRepository.save(newUser);
 //        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(newUser.getUsername())){
 //            throw new OAuth2AccessDeniedException("You cannot change other users");
 //        }
-        return userRepository.save(newUser);
+        return newUser;
     }
 
     @Transactional
