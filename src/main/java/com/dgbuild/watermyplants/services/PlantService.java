@@ -16,4 +16,6 @@ public interface PlantService {
     List<Plant> findAll();
 
     Plant findById(long id);
+
+    List<Plant> findMyPlants();
 }

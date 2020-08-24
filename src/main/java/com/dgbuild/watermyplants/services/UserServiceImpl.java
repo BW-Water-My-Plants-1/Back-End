@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public void delete(long id) {
         userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User " + id + " Not Found"));
+//        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(userRepository.findById(id).get().getUsername())){
+//            throw new OAuth2AccessDeniedException("You cannot delete other users");
+//        }
         userRepository.deleteById(id);
     }
 
@@ -72,6 +75,10 @@ public class UserServiceImpl implements UserService{
 
             newUser.getRoles().add(new UserRoles(newUser, addRole));
         }
+
+//        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(newUser.getUsername())){
+//            throw new OAuth2AccessDeniedException("You cannot change other users");
+//        }
         return userRepository.save(newUser);
     }
 
@@ -134,9 +141,9 @@ public class UserServiceImpl implements UserService{
             newUser.getRoles().add(new UserRoles(ur.getUser(), ur.getRole()));
         }
 
-        if (!helperFunctions.isAuthorizedToMakeChange(newUser.getUsername())) {
-            throw new OAuth2AccessDeniedException();
-        }
+//        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(newUser.getUsername())) {
+//            throw new OAuth2AccessDeniedException("You cannot change other users");
+//        }
             return userRepository.save(newUser);
     }
 
