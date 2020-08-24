@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface HelperFunctions {
     List<ValidationError> getConstraintViolation(Throwable cause);
+
+    String getCurrentAuditor();
+
+    boolean isAuthorizedToMakeChange(String username);
 }

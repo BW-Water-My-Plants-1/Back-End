@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +24,9 @@ public class User extends Auditable{
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Email
+    @Column(nullable = false,
+            unique = true)
     private String email;
 
     private String phone;

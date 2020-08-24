@@ -14,4 +14,6 @@ public interface RoleService {
     Role findById(long id);
 
     Role save(Role newRole);
+
+    Role findByName(String name);
 }

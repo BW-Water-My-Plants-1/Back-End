@@ -1,10 +1,14 @@
 package com.dgbuild.watermyplants.services;
 
 import com.dgbuild.watermyplants.models.ValidationError;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,5 +32,26 @@ public class HelperFunctionsImpl implements HelperFunctions{
             }
         }
         return listVE;
+    }
+
+    @Override
+    public String getCurrentAuditor() {
+        String username;
+        Authentication authenticatedUser = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authenticatedUser != null){
+            username = authenticatedUser.getName();
+        } else {
+            username = "SYSTEM";
+        }
+        return username;
+    }
+
+    @Override
+    public boolean isAuthorizedToMakeChange(String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return username.equalsIgnoreCase(authentication.getName().toLowerCase()) || authentication.getAuthorities()
+                .contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 }
