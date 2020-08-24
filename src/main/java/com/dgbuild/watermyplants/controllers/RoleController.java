@@ -5,11 +5,9 @@ import com.dgbuild.watermyplants.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,6 +32,33 @@ public class RoleController {
         return new ResponseEntity<>(getRole, HttpStatus.OK);
     }
 
-    // http://localhost:2019/roles/role/{id}
+    // POST http://localhost:2019/roles/role
+    @PostMapping(value = "/role",
+                consumes = "application/json",
+                produces = "application/json")
+    public ResponseEntity<?> addNewRole(@Valid @RequestBody Role newRole){
+        newRole.setRoleid(0);
+        newRole = roleService.save(newRole);
+        return new ResponseEntity<>(newRole, HttpStatus.CREATED);
+    }
+
+    // PUT http://localhost:2019/roles/role/{id}
+    @PutMapping(value = "/role/{roleId}",
+                consumes = "application/json",
+                produces = "application/json")
+    public ResponseEntity<?> updateRole(@PathVariable long roleId, @RequestBody Role updateRole){
+        updateRole.setRoleid(roleId);
+        updateRole = roleService.save(updateRole);
+        return new ResponseEntity<>(updateRole, HttpStatus.CREATED);
+    }
+
+    // DELETE http://localhost:2019/roles/role/{id}
+    @DeleteMapping(value = "/role/{roleId}",
+                    consumes = "application/json",
+                    produces = "application/json")
+    public ResponseEntity<?> deleteRole(@PathVariable long roleId){
+        roleService.delete(roleId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
