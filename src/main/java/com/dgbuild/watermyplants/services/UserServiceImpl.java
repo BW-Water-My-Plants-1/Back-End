@@ -5,12 +5,11 @@ import com.dgbuild.watermyplants.models.Plant;
 import com.dgbuild.watermyplants.models.Role;
 import com.dgbuild.watermyplants.models.User;
 import com.dgbuild.watermyplants.models.UserRoles;
-import com.dgbuild.watermyplants.repositories.PlantRepository;
 import com.dgbuild.watermyplants.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,13 +23,10 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Autowired
-    private PlantRepository plantRepository;
+    private HelperFunctions helperFunctions;
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private PlantService plantService;
 
     @Override
     public void deleteAll() {
@@ -138,7 +134,10 @@ public class UserServiceImpl implements UserService{
             newUser.getRoles().add(new UserRoles(ur.getUser(), ur.getRole()));
         }
 
-        return userRepository.save(newUser);
+        if (!helperFunctions.isAuthorizedToMakeChange(newUser.getUsername())) {
+            throw new OAuth2AccessDeniedException();
+        }
+            return userRepository.save(newUser);
     }
 
     @Override
@@ -154,4 +153,68 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(()-> new ResourceNotFoundException("User " + id + " Not Found"));
         return findUser;
     }
+
+    @Override
+    public User getCurrentUser() {
+        User currentUser = userRepository.findByUsername(helperFunctions.getCurrentAuditor());
+        return currentUser;
+    }
+
+//    @Override
+//    public User updateCurrentUser(User newInfo) {
+//        User currentUser = userRepository.findByUsername(helperFunctions.getCurrentAuditor());
+//        User newUser = new User();
+//
+//        if (newInfo.getEmail() != null){
+//            currentUser.setEmail(newInfo.getEmail());
+//        }else{
+//            newUser.setEmail(currentUser.getEmail());
+//        }
+//
+//        if (newInfo.getPassword() != null){
+//            newUser.setPassword(newInfo.getPassword());
+//        }else{
+//            newUser.setPassword(currentUser.getPassword());
+//        }
+//
+//        if (newInfo.getPhone() != null){
+//            newUser.setPhone(newInfo.getPhone());
+//        }else{
+//            newUser.setPhone(currentUser.getPhone());
+//        }
+//
+//        if (newInfo.getUsername() != null){
+//            newUser.setUsername(newInfo.getUsername());
+//        }else{
+//            newUser.setUsername(currentUser.getUsername());
+//        }
+//
+//        for (Plant p : currentUser.getPlants()) {
+//            newUser.getPlants().add(p);
+//        }
+//
+//        for (Plant p : newInfo.getPlants()) {
+//            newUser.getPlants().add(new Plant(p.getNickname(), p.getSpecies(),
+//                    p.getFrequency(), currentUser));
+//        }
+//
+//        newUser.getRoles().clear();
+//
+//        Set<UserRoles> URSet = new HashSet<>();
+//        newInfo.getRoles().iterator().forEachRemaining(URSet::add);
+//        newInfo.getRoles().clear();
+//
+//        newUser.getRoles().clear();
+//
+//        for (UserRoles ur: currentUser.getRoles()){
+//            newUser.getRoles().add(ur);
+//        }
+//        for (UserRoles ur: newInfo.getRoles()){
+//            newUser.getRoles().add(new UserRoles(ur.getUser(), ur.getRole()));
+//        }
+//
+//        if (helperFunctions.isAuthorizedToMakeChange())
+//
+//        return userRepository.save(newUser);
+//    }
 }

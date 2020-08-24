@@ -33,6 +33,11 @@ public class UserController {
     }
 
     // http://localhost:2019/users/myinfo
+    @GetMapping(value = "/myinfo", produces = "application/json")
+    public ResponseEntity<?> findCurrentUserInfo(){
+        User currentUser = userService.getCurrentUser();
+        return new ResponseEntity<>(currentUser, HttpStatus.OK);
+    }
 
     // POST http://localhost:2019/users/user
     @PostMapping(value = "/user",
