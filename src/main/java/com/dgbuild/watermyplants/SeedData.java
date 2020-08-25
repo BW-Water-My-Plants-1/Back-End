@@ -39,8 +39,14 @@ public class SeedData implements CommandLineRunner {
         r1 = roleService.save(r1);
         r2 = roleService.save(r2);
 
-        User u1 = new User("admin", "password",
-                "admin@watermyplants.local", "(317)867-5309");
+//        User u1 = new User("admin", "password",
+//                "admin@watermyplants.local", "(317)867-5309");
+        User u1 = new User();
+
+        u1.setUsername("admin");
+        u1.setPassword("password");
+        u1.setEmail("admin@watermyplants.local");
+        u1.setPhone("(317)867-5309");
 
         u1 = userService.save(u1);
 

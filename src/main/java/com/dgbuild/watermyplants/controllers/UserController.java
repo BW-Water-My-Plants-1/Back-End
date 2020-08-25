@@ -5,6 +5,7 @@ import com.dgbuild.watermyplants.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,23 +41,25 @@ public class UserController {
     }
 
     // POST http://localhost:2019/users/user
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping(value = "/user",
             consumes = "application/json",
             produces = "application/json")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody User newUser){
         newUser.setUserid(0);
         newUser = userService.save(newUser);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // PUT http://localhost:2019/users/user/{id}
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/user/{userId}",
                 consumes = "application/json",
                 produces = "application/json")
     public ResponseEntity<?> updateFullUser(@Valid @PathVariable long userId, @RequestBody User updateUser){
         updateUser.setUserid(userId);
         updateUser = userService.save(updateUser);
-        return new ResponseEntity<>(updateUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // PATCH http://localhost:2019/users/user/{id}
@@ -65,7 +68,7 @@ public class UserController {
                 produces = "application/json")
     public ResponseEntity<?> updateUser(@RequestBody User updateUser, @PathVariable long userId){
         updateUser = userService.update(updateUser, userId);
-        return new ResponseEntity<>(updateUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // DELETE http://localhost:2019/users/user/{id}

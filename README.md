@@ -58,9 +58,9 @@ the corresponding user to the id provided in the endpoint.
 | GET   | /users/user/{id}  | Returns specific user by id                               | Token and Admin role                      |
 | GET   | /users/myinfo     | Returns current user's object                             | Token                                     |
 | POST  | /users/user       | Adds new user to database and returns status of CREATED   | Token and Admin role                      |
-| PUT   | /users/user/{id}  | Replaces entire user by id and returns status of CREATED  | Token and User object                     |
+| PUT   | /users/user/{id}  | Replaces entire user by id and returns status of CREATED  | Token, Admin role, and User object        |
 | PATCH | /users/user/{id}  | Replaces part of user object and returns status of CREATED| Token and User object                     |
-|DELETE | /users/user/{id}  | Deletes user by id and returns status of OK                | Token                                     |
+|DELETE | /users/user/{id}  | Deletes user by id and returns status of OK                | Token                                    |
 
 ## PLANT  
 In order to change any plant information the request must come from an admin or  

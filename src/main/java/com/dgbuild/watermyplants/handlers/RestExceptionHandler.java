@@ -1,5 +1,6 @@
 package com.dgbuild.watermyplants.handlers;
 
+import com.dgbuild.watermyplants.exceptions.AccessDeniedException;
 import com.dgbuild.watermyplants.exceptions.ResourceFoundException;
 import com.dgbuild.watermyplants.exceptions.ResourceNotFoundException;
 import com.dgbuild.watermyplants.models.ErrorDetail;
@@ -53,5 +54,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         errorDetail.setErrors(helperFunctions.getConstraintViolation(rfe));
 
         return new ResponseEntity<>(errorDetail, null, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ade){
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTimestamp(new Date());
+        errorDetail.setStatus(HttpStatus.FORBIDDEN.value());
+        errorDetail.setTitle("Action Forbidden");
+        errorDetail.setDetail(ade.getMessage());
+        errorDetail.setDeveloperMessage(ade.getClass().getName());
+        errorDetail.setErrors(helperFunctions.getConstraintViolation(ade));
+
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.FORBIDDEN);
     }
 }

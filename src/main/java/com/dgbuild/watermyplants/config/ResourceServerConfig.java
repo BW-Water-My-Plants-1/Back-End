@@ -28,11 +28,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/webjars/**",
                         "/createnewuser")
                 .permitAll()
-                .antMatchers("/users/**",
+                .antMatchers("/users/myinfo","/plants/myplants",
                             "/oauth/revoke-token",
                             "/logout")
                 .authenticated()
-                .antMatchers("/roles/**", "/plants/plants", "/plants/plants/*")
-                .hasAnyRole("ADMIN");
+                .antMatchers("/users/users", "/roles/**", "/plants/plants")
+                .hasAnyRole("ADMIN")
+                .antMatchers("/users/user/**", "/plants/plant/**")
+                .hasAnyRole("ADMIN", "USER");
     }
 }

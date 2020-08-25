@@ -1,5 +1,6 @@
 package com.dgbuild.watermyplants.services;
 
+import com.dgbuild.watermyplants.exceptions.AccessDeniedException;
 import com.dgbuild.watermyplants.exceptions.ResourceNotFoundException;
 import com.dgbuild.watermyplants.models.Plant;
 import com.dgbuild.watermyplants.models.User;
@@ -36,9 +37,9 @@ public class PlantServiceImpl implements PlantService {
     public void delete(long id) {
         plantRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Plant "+ id + " Not Found"));
-//        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(plantRepository.findById(id).get().getUser().getUsername())){
-//            throw new OAuth2AccessDeniedException("You cannot delete plants that aren't yours");
-//        }
+        if (!helperFunctions.isAuthorizedToMakeChange(userRepository.findById(id).get().getUsername())){
+            throw new AccessDeniedException("You cannot delete other user's plants");
+        }
         plantRepository.deleteById(id);
     }
 
