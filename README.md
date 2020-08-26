@@ -14,6 +14,7 @@
 | :----: | :------------------: | :------------------------------------------: | :-----------------------: |
 | POST   | /createnewuser       | username, email, password                    | token                     |
 | POST   | /login               | username, password, client-id, client-secret | token                     |
+| GET    | /oauth/revoke-token  | token                                        | logs user out of database |
 | GET    | /users/myinfo        | token                                        | users info                |
 | PATCH  | /users/user/{id}     | part of user object, token                   | CREATED status            |
 | DELETE | /users/user/{id}     | token                                        | OK status                 |
