@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
         newUser.getPlants().clear();
 
         for (Plant p : user.getPlants()) {
-            newUser.getPlants().add(new Plant(p.getNickname(), p.getSpecies(),
+            newUser.getPlants().add(new Plant(p.getNickname(), p.getSpecies(), p.getLastwatered(),
                             p.getFrequency(), newUser));
         }
 
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService{
         }
 
         for (Plant p : updateUser.getPlants()) {
-            newUser.getPlants().add(new Plant(p.getNickname(), p.getSpecies(),
+            newUser.getPlants().add(new Plant(p.getNickname(), p.getSpecies(), p.getLastwatered(),
                                 p.getFrequency(), userRepository.findById(id).get()));
         }
 

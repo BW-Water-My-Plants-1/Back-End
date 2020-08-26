@@ -3,10 +3,26 @@
 ## API: http://watermyplants-dg0511.herokuapp.com/  
 
 ### Table of Contents  
+[Important Endpoints](#important-endpoints)
 [Register and Login](#register-and-login)  
 [User](#user)  
 [Plant](#plant)  
 [Role](#role)
+
+## IMPORTANT ENDPOINTS
+| Type   | Endpoint             | requires                                     | returns                   |
+| :----: | :------------------: | :------------------------------------------: | :-----------------------: |
+| POST   | /createnewuser       | username, email, password                    | token                     |
+| POST   | /login               | username, password, client-id, client-secret | token                     |
+| GET    | /users/myinfo        | token                                        | users info                |
+| PATCH  | /users/user/{id}     | part of user object, token                   | CREATED status            |
+| DELETE | /users/user/{id}     | token                                        | OK status                 |
+| GET    | /plants/myplants     | token                                        | user's plants             |
+| POST   | /plants/water/{id}   | token                                        | new lastwatered date      |
+| POST   | /plants/myplants/add | full plant object without user, token        | CREATED status            |
+| PUT    | /plants/plant/{id}   | full plant object without user, token        | CREATED status            |
+| PATCH  | /plants/plant/{id}   | part of plant object, token                  | CREATED status            |
+| DELETE | /plants/plant/{id}   | token                                        | OK status                 |
 
 ## REGISTER AND LOGIN  
 #### The login axios request should look like
