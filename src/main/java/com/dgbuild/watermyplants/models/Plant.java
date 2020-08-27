@@ -17,10 +17,9 @@ public class Plant extends Auditable{
 
     private String species;
 
-    @Transient
-    public boolean hasValueForFrequency = false;
+    private String lastwatered;
 
-    private int frequency;
+    private String frequency;
 
     @ManyToOne
     @JoinColumn(name = "userid")
@@ -30,11 +29,12 @@ public class Plant extends Auditable{
     public Plant() {
     }
 
-    public Plant(String nickname, String species, int frequency, User user) {
+    public Plant(String nickname, String species, String lastwatered, String frequency, User user) {
         this.nickname = nickname;
         this.species = species;
         this.frequency = frequency;
         this.user = user;
+        this.lastwatered = lastwatered;
     }
 
     public long getPlantid() {
@@ -61,12 +61,11 @@ public class Plant extends Auditable{
         this.species = species;
     }
 
-    public int getFrequency() {
+    public String getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(int frequency) {
-        hasValueForFrequency = true;
+    public void setFrequency(String frequency) {
         this.frequency = frequency;
     }
 
@@ -76,5 +75,13 @@ public class Plant extends Auditable{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getLastwatered() {
+        return lastwatered;
+    }
+
+    public void setLastwatered(String lastwatered) {
+        this.lastwatered = lastwatered;
     }
 }

@@ -7,11 +7,12 @@ import com.dgbuild.watermyplants.models.User;
 import com.dgbuild.watermyplants.repositories.PlantRepository;
 import com.dgbuild.watermyplants.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -70,9 +71,7 @@ public class PlantServiceImpl implements PlantService {
 
         newPlant.setFrequency(plant.getFrequency());
 
-//        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(newPlant.getUser().getUsername())){
-//            throw new OAuth2AccessDeniedException("You cannot change plants that aren't yours");
-//        }
+        newPlant.setLastwatered(plant.getLastwatered());
 
         return plantRepository.save(newPlant);
     }
@@ -98,13 +97,17 @@ public class PlantServiceImpl implements PlantService {
             currentPlant.setUser(plant.getUser());
         }
 
-        if (plant.hasValueForFrequency) {
+        if (plant.getLastwatered() != null){
+            currentPlant.setLastwatered(plant.getLastwatered());
+        }
+
+        if (plant.getFrequency() != null) {
             currentPlant.setFrequency(plant.getFrequency());
         }
 
-//        if (helperFunctions.getCurrentAuditor() != "SYSTEM" || !helperFunctions.isAuthorizedToMakeChange(newPlant.getUser().getUsername())){
-//            throw new OAuth2AccessDeniedException("You cannot change plants that aren't yours");
-//        }
+        if (plant.getLastwatered() != null) {
+            currentPlant.setLastwatered(plant.getLastwatered());
+        }
 
         return plantRepository.save(currentPlant);
     }
@@ -122,5 +125,46 @@ public class PlantServiceImpl implements PlantService {
                 .orElseThrow(()-> new ResourceNotFoundException("Plant " + id + " Not Found"));
 
         return plantRepository.findById(id).get();
+    }
+
+    @Override
+    public String waterPlant(long id) {
+        Plant updatePlant = plantRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Plant " + id + " Not Found"));
+
+        if (!helperFunctions.isAuthorizedToMakeChange(updatePlant.getUser().getUsername())){
+            throw new AccessDeniedException("You cannot water other user's plants");
+        }
+
+        SimpleDateFormat dateFor = new SimpleDateFormat("MM-dd-yyyy");
+        Date date = new Date();
+        String stringDate = dateFor.format(date);
+
+        updatePlant.setLastwatered(stringDate);
+
+        return stringDate;
+    }
+
+    @Override
+    public Plant addMyPlant(Plant myPlant) {
+        Plant newPlant = new Plant();
+
+        if (myPlant.getPlantid() != 0){
+            plantRepository.findById(myPlant.getPlantid())
+                    .orElseThrow(() -> new ResourceNotFoundException("Plant " + " Not Found"));
+            newPlant.setPlantid(myPlant.getPlantid());
+        }
+
+        newPlant.setNickname(myPlant.getNickname());
+
+        newPlant.setSpecies(myPlant.getSpecies());
+
+        newPlant.setUser(userRepository.findByUsername(helperFunctions.getCurrentAuditor()));
+
+        newPlant.setFrequency(myPlant.getFrequency());
+
+        newPlant.setLastwatered(myPlant.getLastwatered());
+
+        return plantRepository.save(newPlant);
     }
 }

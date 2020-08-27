@@ -53,34 +53,38 @@ public class SeedData implements CommandLineRunner {
         u1.getRoles()
                 .add(new UserRoles(u1, r1));
 
-        Plant p1 = new Plant("Habanero", "Pepper",
-                            2, u1);
+        Plant p1 = new Plant("Habanero", "Pepper", "8-25-2020",
+                            "Daily", u1);
         p1.setPlantid(0);
 
         p1 = plantService.save(p1);
 
         u1.getPlants().add(p1);
 
-        User u2 = new User("user", "password",
-                        "user@watermyplants.local", "(574)123-4567");
+        User u2 = new User();
+
+        u2.setUsername("user");
+        u2.setPassword("password");
+        u2.setEmail("user@watermyplants.local");
+        u2.setPhone("(574)123-4567");
 
         u2 = userService.save(u2);
 
         u2.getRoles()
                 .add(new UserRoles(u2, r2));
 
-        Plant p2 = new Plant("Roma", "Tomato",
-                            3, u2);
+        Plant p2 = new Plant("Roma", "Tomato","8-25-2020",
+                "Daily", u2);
         p2.setPlantid(0);
         p2 = plantService.save(p2);
 
-        Plant p3 = new Plant("Honeydew", "Melon",
-                            1, u2);
+        Plant p3 = new Plant("Honeydew", "Melon","8-25-2020",
+                "Daily", u2);
         p3.setPlantid(0);
         p3 = plantService.save(p3);
 
-        Plant p4 = new Plant("Straight 8", "Cucumber",
-                            2, u2);
+        Plant p4 = new Plant("Straight 8", "Cucumber","8-25-2020",
+                "Daily", u2);
         p4.setPlantid(0);
         p4 = plantService.save(p4);
 

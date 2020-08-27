@@ -41,12 +41,37 @@ public class PlantController {
         return new ResponseEntity<>(getPlant, HttpStatus.OK);
     }
 
+    // Post http://localhost:2019/plants/water/{id}
+    @PostMapping(value = "/water/{plantId}",
+                produces = "application/json")
+    public ResponseEntity<?> waterPlant(@PathVariable long plantId){
+        String newWaterDate = plantService.waterPlant(plantId);
+        return new ResponseEntity<>(newWaterDate, HttpStatus.OK);
+    }
+
     // POST http://localhost:2019/plants/plant
     @PostMapping(value = "/plant",
                 consumes = "application/json",
                 produces = "application/json")
     public ResponseEntity<?> addNewPlant(@Valid @RequestBody Plant newPlant){
         plantService.save(newPlant);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    // POST http://localhost:2019/plants/myplants/add
+    @PostMapping(value = "/myplants/add",
+                consumes = "application/json")
+    public ResponseEntity<?> addMyPlant(@Valid @RequestBody Plant newPlant){
+        newPlant.setPlantid(0);
+        plantService.addMyPlant(newPlant);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    // POST http://localhost:2019/plants/myplants/{id}
+    @PutMapping(value = "/myplants/{plantId}",
+            consumes = "application/json")
+    public ResponseEntity<?> updateMyPlant(@Valid @RequestBody Plant newPlant){
+        plantService.addMyPlant(newPlant);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

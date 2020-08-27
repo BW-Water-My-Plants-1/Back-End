@@ -18,4 +18,8 @@ public interface PlantService {
     Plant findById(long id);
 
     List<Plant> findMyPlants();
+
+    String waterPlant(long id);
+
+    Plant addMyPlant(Plant myPlant);
 }
